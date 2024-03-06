@@ -1,13 +1,13 @@
 const express = require("express")
 const mongoose = require("mongoose");
 
-// Import the Movie model
+
 const Movie = require("../models/movies_model");
 
-// Create a function to fetch genres
+
 exports.fetchGenres = async (req,res) => {
     try {
-        // Use the Movie model
+        
         const genres = await Movie.distinct("genre").exec();
         genres.unshift("all")
         res.send(genres);
@@ -17,7 +17,7 @@ exports.fetchGenres = async (req,res) => {
     }
 };
 
-// create a function to fetch movieslist availale on mongodb
+
 
 exports.fetchMovieDetail = async (req,res) => {
     try {
@@ -31,27 +31,27 @@ exports.fetchMovieDetail = async (req,res) => {
 
 exports.fetchMovieDetailByGenre = async (req, res) => {
     try {
-        const selectedGenre = req.params.genre; // Use req.params.genre to get the genre from the URL
-        const movieDetails = await Movie.find({ genre: selectedGenre }); // Fetch movies with the selected genre
-        res.send(movieDetails); // Send the filtered movie details to the client
+        const selectedGenre = req.params.genre; 
+        const movieDetails = await Movie.find({ genre: selectedGenre }); 
+        res.send(movieDetails); 
     } catch (error) {
         console.error(`Error: ${error}`);
-        res.status(500).json({ error: 'Internal server error' }); // Handle errors properly
+        res.status(500).json({ error: 'Internal server error' }); 
     }
 }
 
 
 
-// Update the favorite status of a movie
+
 exports.updateFav = async (req, res) => {
     try {
         const { _id, fav } = req.body;
 
-        // Find the movie document by ID and update the 'fav' field
+        
         const updatedMovie = await Movie.findOneAndUpdate(
-            { _id }, // Query
-            { $set: { fav } }, // Update
-            { new: true } // Options: return the updated document
+            { _id }, 
+            { $set: { fav } }, 
+            { new: true } 
         );
 
         if (updatedMovie) {
@@ -66,11 +66,11 @@ exports.updateFav = async (req, res) => {
 };
 
 
-// Create a function to fetch movie details by ID
+
 exports.fetchMovieDetailsById = async (req, res) => {
     try {
-        const movieId = req.params.id; // Get the movie ID from the request parameters
-        const movieDetails = await Movie.findById(movieId); // Fetch movie details by ID
+        const movieId = req.params.id; 
+        const movieDetails = await Movie.findById(movieId); 
         res.send(movieDetails);
     } catch (error) {
         console.error(`Error: ${error}`);
@@ -78,7 +78,7 @@ exports.fetchMovieDetailsById = async (req, res) => {
     }
 };
 
-// Delete a movie by ID
+
 exports.deleteMovieById = async (req, res) => {
     try {
         const { id } = req.params;
